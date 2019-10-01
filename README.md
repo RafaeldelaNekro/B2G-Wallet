@@ -9,6 +9,7 @@ Installation:
 2.1. open windows power shell as administrator
 
 2.2. copy and insert the following code:
+
      Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
      
 2.3. restart PC
