@@ -26,3 +26,5 @@ https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows
 7. from now on you can start the wallet by double klick wallet.py. This will start your local node and the wallet itself.
 
 8. to close the wallet, you can close the black window, with the blockchain text, then everything will close.
+
+9. for updating replace the wallet.py with the new one, later autoupdate will be available
