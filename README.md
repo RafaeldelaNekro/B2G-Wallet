@@ -30,6 +30,8 @@ https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows
 9. for updating replace the wallet.py with the new one, later autoupdate will be available
 
 
+
+
 Usage (windows):
 - when starting wallet.py, a local node will start in a new window and the wallet window appear
 - let the node syncronize the chain, at first start it could take 1-3 hours, you will see messages like "Imported new chain segment ...", when it is synced, once synced it will take seconds to sync the node again
@@ -44,3 +46,23 @@ Usage (windows):
 - put in your private key into "Private Key" field
 - set a password for securing your wallet in your node against attacks or misusage, password is shown to make sure you make a secure one, you will need this password for making transactions with your node
 - click "Import" and wait!!! This action may take some time, when the window is not responding, dont worry, just wait, maybe after 10-15 min you can close it and try again
+
+>> Create New Wallet
+- type in a password in the "Password" field at the bottom and click "New Wallet"
+- in the black window you will see a address displayed, thats your new address
+- the private key is stored in the node secured with your password
+- more advanced options will follow
+
+>> Send B2G
+- type your sending address in "From"
+- the destination address in "To"
+- "Amount" is the amount in full B2G, some examples:
+     > 100 B2G      >> 100
+     > 12,593 B2G   >> 12.593
+     > 0.5 B2G      >> 0.5
+- input your password, which you had choosen at import/creating the wallet
+- click "Send"
+- it will use a normal gas price and limit to make the transaction, you will see it the node window, and it will be done within the next 1-3 blocks
+
+
+These are all basic functions and its not user friendly, i know, but it should work and i'm working on advanced versions. If you have questions you can contact me via telegram (Rafael de la Nekro).
