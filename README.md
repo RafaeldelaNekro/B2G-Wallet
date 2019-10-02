@@ -57,9 +57,9 @@ Usage (windows):
 - type your sending address in "From"
 - the destination address in "To"
 - "Amount" is the amount in full B2G, some examples:
-     > 100 B2G      >> 100
-     > 12,593 B2G   >> 12.593
-     > 0.5 B2G      >> 0.5
+     - 100 B2G      = 100
+     - 12,593 B2G   = 12.593
+     - 0.5 B2G      = 0.5
 - input your password, which you had choosen at import/creating the wallet
 - click "Send"
 - it will use a normal gas price and limit to make the transaction, you will see it the node window, and it will be done within the next 1-3 blocks
