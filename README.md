@@ -1,6 +1,6 @@
 # B2G-Wallet
 
-Installation:
+Installation (windows):
 
 1. install Python 3.6 or later, can be found here: https://www.python.org/downloads/
 
@@ -28,3 +28,19 @@ https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows
 8. to close the wallet, you can close the black window, with the blockchain text, then everything will close.
 
 9. for updating replace the wallet.py with the new one, later autoupdate will be available
+
+
+Usage (windows):
+- when starting wallet.py, a local node will start in a new window and the wallet window appear
+- let the node syncronize the chain, at first start it could take 1-3 hours, you will see messages like "Imported new chain segment ...", when it is synced, once synced it will take seconds to sync the node again
+
+>> Read Balance:
+- input the address you want to know the balance into "Address" field, then click "Refresh"
+- Balance will appear in "Balance field"
+
+>> Import Old Wallet
+- at the time only private keys supported, other methods will follow shortly
+- make sure your node is fully synced
+- put in your private key into "Private Key" field
+- set a password for securing your wallet in your node against attacks or misusage, password is shown to make sure you make a secure one, you will need this password for making transactions with your node
+- click "Import" and wait!!! This action may take some time, when the window is not responding, dont worry, just wait, maybe after 10-15 min you can close it and try again
