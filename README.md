@@ -1,4 +1,4 @@
-# B2G-Wallet
+# B2G-Wallet V0.1
 
 Installation (windows):
 
