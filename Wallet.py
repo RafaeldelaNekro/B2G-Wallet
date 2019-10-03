@@ -9,7 +9,7 @@ class B2G_Wallet():
     def __init__(self):
         self.GETH = Geth_Connector()
         self.GUI = guicore()
-        self.System = 'win'
+        self.System = 'test'
         if self.System == 'win':
             import os
             t = threading.Thread(target=os.system,args=('bash -c "/mnt/c/B2G/bitcoiinGo --rpc --rpcapi personal,eth,admin"',))
@@ -17,7 +17,7 @@ class B2G_Wallet():
         self.Show_Desktop()
         self.GUI.start()
     def Show_Desktop(self):
-        self.GUI.ADD({'Action': 'title', 'Name': 'Fenster', 'Text': "Rafaels B2G Wallet - 0.1"})
+        self.GUI.ADD({'Action': 'title', 'Name': 'Fenster', 'Text': "Rafaels B2G Wallet - 0.1.1"})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Adresse', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Adresse', 'Text':'Address:'})
@@ -137,7 +137,7 @@ class B2G_Wallet():
         #print('READY')
 
 class Geth_Connector():
-    def __init__(self,Host='localhost',Port=8545):
+    def __init__(self,Host='rafaeldelanekro.de',Port=8545):
         self.Host = Host
         self.Port = Port
 
