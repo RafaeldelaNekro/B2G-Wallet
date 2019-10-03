@@ -4,7 +4,7 @@ There are two ways of using the wallet:
 - with external public node
 - with local node (more secure)
 
-For external node usage, follow the installation steps 1 and 7 only. For local node all steps required and while testing there where some issues starting the local node, if that happens you can fall back to external node usage.
+For external node usage, follow the installation steps 1,4,5 and 7 only. For local node all steps required and while testing there where some issues starting the local node, if that happens you can fall back to external node usage.
 
 Installation (windows):
 
