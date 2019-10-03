@@ -118,6 +118,7 @@ class B2G_Wallet():
         if x['result']:
             x = self.GETH.eth_send(Von,An,int(Betrag*10**18))
             print(x)
+        x = self.GETH.eth_lock(Von)
     def Importieren(self):
         key = self.GUI.GET_W('Entry_PrivateKey').get()
         PW = self.GUI.GET_W('Entry_Passwort2').get()
@@ -233,6 +234,11 @@ class Geth_Connector():
         data = json.dumps({"jsonrpc":"2.0","method":"personal_unlockAccount","params":params,"id":1})
         return self.connect(data)
 
+    def eth_lock(self,Adress):
+        params = [Adress]
+        data = json.dumps({"jsonrpc":"2.0","method":"personal_unlockAccount","params":params,"id":1})
+        return self.connect(data)
+    
     def eth_send(self,From,To,Value,Fee='0x2540be400'):
         params = [{'from':From,
                    'to':To,
