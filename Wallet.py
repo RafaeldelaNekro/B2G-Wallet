@@ -2,140 +2,204 @@ import http.client
 import json
 import threading
 import queue
+import os
 from tkinter import *
 from tkinter.ttk import *
+
 #0x0cfd4d31d3e008551ef6d0a7d99861d732cb75c3
+
 class B2G_Wallet():
     def __init__(self):
         self.GETH = Geth_Connector()
         self.GUI = guicore()
-        self.System = 'test'
-        if self.System == 'win':
-            import os
-            t = threading.Thread(target=os.system,args=('bash -c "/mnt/c/B2G/bitcoiinGo --rpc --rpcapi personal,eth,admin"',))
-            t.start()
+        self.Node = 'external'
         self.Show_Desktop()
         self.GUI.start()
     def Show_Desktop(self):
         self.GUI.ADD({'Action': 'title', 'Name': 'Fenster', 'Text': "Rafaels B2G Wallet - 0.1.1"})
 
+        self.GUI.ADD({'Action': 'create', 'Name': 'Separator0', 'Typ': 'Separator'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Separator0', 'Ausrichtung': 'horizontal'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Separator0', 'Row': 0, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
+
+        self.GUI.ADD({'Action': 'create', 'Name': 'Label_Node', 'Typ': 'Label'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Label_Node', 'Text':'Address:'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Node', 'Row': 1, 'Col':0})
+        self.GUI.ADD({'Action': 'create', 'Name': 'Combobox_Node', 'Typ': 'Combobox'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Combobox_Node', 'Breite':15,'Values':['external','local']})
+        self.GUI.ADD({'Action': 'insert', 'Name': 'Combobox_Node', 'Text': 'external'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Combobox_Node', 'Status':'readonly'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Combobox_Node', 'Row': 1, 'Col':1})
+
+        self.GUI.ADD({'Action': 'create', 'Name': 'Button_Node', 'Typ': 'Button'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Button_Node', 'Text':'Set node','Func':self.set_Node})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Node', 'Row': 1, 'Col':2,'PadX':5})
+
+        self.GUI.ADD({'Action': 'create', 'Name': 'Separator1', 'Typ': 'Separator'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Separator1', 'Ausrichtung': 'horizontal'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Separator1', 'Row': 2, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
+
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Adresse', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Adresse', 'Text':'Address:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Adresse', 'Row': 0, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Adresse', 'Row': 3, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Adresse', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Adresse', 'Breite':50})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Adresse', 'Row': 0, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Adresse', 'Row': 3, 'Col':1})
         
-        self.GUI.ADD({'Action': 'create', 'Name': 'Label_Kontostand', 'Typ': 'Label'})
-        self.GUI.ADD({'Action': 'config', 'Name': 'Label_Kontostand', 'Text':'Balance:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Kontostand', 'Row': 1, 'Col':0})
-        self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Kontostand', 'Typ': 'Entry'})
-        self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Kontostand', 'Breite':50})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Kontostand', 'Row': 1, 'Col':1})
-
         self.GUI.ADD({'Action': 'create', 'Name': 'Button_Aktualisieren', 'Typ': 'Button'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Button_Aktualisieren', 'Text':'Refresh','Func':self.Aktualisieren})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Aktualisieren', 'Row': 2, 'Col':2,'PadX':5})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Aktualisieren', 'Row': 3, 'Col':2,'PadX':5})
 
-        #self.GUI.ADD({'Action': 'create', 'Name': 'Button_Transaktionen', 'Typ': 'Button'})
-        #self.GUI.ADD({'Action': 'config', 'Name': 'Button_Transaktionen', 'Text':'List Transactions','Func':self.Transaktionen})
-        #self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Transaktionen', 'Row': 2, 'Col':3,'PadX':5})
+        self.GUI.ADD({'Action': 'create', 'Name': 'Separator2', 'Typ': 'Separator'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Separator2', 'Ausrichtung': 'horizontal'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Separator2', 'Row': 4, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Von', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Von', 'Text':'From:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Von', 'Row': 4, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Von', 'Row': 5, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Von', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Von', 'Breite':50})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Von', 'Row': 4, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Von', 'Row': 5, 'Col':1})
         
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_An', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_An', 'Text':'To:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_An', 'Row': 5, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_An', 'Row': 6, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_An', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_An', 'Breite':50})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_An', 'Row': 5, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_An', 'Row': 6, 'Col':1})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Betrag', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Betrag', 'Text':'Amount:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Betrag', 'Row': 6, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Betrag', 'Row': 7, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Betrag', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Betrag', 'Breite':50})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Betrag', 'Row': 6, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Betrag', 'Row': 7, 'Col':1})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Passwort', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Passwort', 'Text':'Password:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Passwort', 'Row': 7, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Passwort', 'Row': 8, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Passwort', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Passwort', 'Breite':50,'Show':'*'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Passwort', 'Row': 7, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Passwort', 'Row': 8, 'Col':1})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Button_Senden', 'Typ': 'Button'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Button_Senden', 'Text':'Send','Func':self.Senden})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Senden', 'Row': 8, 'Col':2,'PadX':5})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Senden', 'Row': 5, 'Col':2,'PadX':5,'RSpan': 4})
+
+        self.GUI.ADD({'Action': 'create', 'Name': 'Separator3', 'Typ': 'Separator'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Separator3', 'Ausrichtung': 'horizontal'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Separator3', 'Row': 9, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_PrivateKey', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_PrivateKey', 'Text':'Private Key:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_PrivateKey', 'Row': 9, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_PrivateKey', 'Row': 10, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_PrivateKey', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_PrivateKey', 'Breite':50,'Show':'*'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_PrivateKey', 'Row': 9, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_PrivateKey', 'Row': 10, 'Col':1})
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Passwort2', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Passwort2', 'Text':'Password:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Passwort2', 'Row': 10, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Passwort2', 'Row': 11, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Passwort2', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Passwort2', 'Breite':50})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Passwort2', 'Row': 10, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Passwort2', 'Row': 11, 'Col':1})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Button_Import', 'Typ': 'Button'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Button_Import', 'Text':'Import','Func':self.Importieren})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Import', 'Row': 11, 'Col':2,'PadX':5})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Button_Import', 'Row': 10, 'Col':2,'PadX':5,'RSpan':2})
+
+        self.GUI.ADD({'Action': 'create', 'Name': 'Separator4', 'Typ': 'Separator'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Separator4', 'Ausrichtung': 'horizontal'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Separator4', 'Row': 12, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Passwort3', 'Typ': 'Label'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Passwort3', 'Text':'Password:'})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Passwort3', 'Row': 12, 'Col':0})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Passwort3', 'Row': 13, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Passwort3', 'Typ': 'Entry'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Passwort3', 'Breite':50})
-        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Passwort3', 'Row': 12, 'Col':1})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Passwort3', 'Row': 13, 'Col':1})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Button_New', 'Typ': 'Button'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Button_New', 'Text':'New Wallet','Func':self.Neu})
         self.GUI.ADD({'Action': 'draw', 'Name': 'Button_New', 'Row': 13, 'Col':2,'PadX':5})
 
-        
+        self.GUI.ADD({'Action': 'create', 'Name': 'Separator5', 'Typ': 'Separator'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Separator5', 'Ausrichtung': 'horizontal'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Separator5', 'Row': 14, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
+
+        self.GUI.ADD({'Action': 'create', 'Name': 'TextBox', 'Typ': 'Text'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'TextBox', 'Hoehe': 10, 'Breite': 80})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'TextBox', 'Row': 15, 'Col': 0,'CSpan':3})
+
+        self.GUI.ADD({'Action': 'create', 'Name': 'Separator6', 'Typ': 'Separator'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Separator6', 'Ausrichtung': 'horizontal'})
+        self.GUI.ADD({'Action': 'draw', 'Name': 'Separator6', 'Row': 16, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
+
+    def set_Node(self):
+        self.Node = self.GUI.GET_W('Combobox_Node').get()
+        self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'Node changed to: %s \n' % self.Node})
+        if self.Node == 'local':
+            self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'try starting local node \n'})
+            t = threading.Thread(target=os.system,args=('bash -c "/mnt/c/B2G/bitcoiinGo --rpc --rpcapi personal,eth,admin"',))
+            t.start()
         
     def Aktualisieren(self):
         adresse = self.GUI.GET_W('Entry_Adresse').get()
         kontostand = self.GETH.eth_getBalance(adresse)
-        self.GUI.ADD({'Action':'delete','Name':'Entry_Kontostand'})
-        self.GUI.ADD({'Action':'insert','Name':'Entry_Kontostand','Text':kontostand})
+        self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'Account: %s >> Balance: %s \n' % (adresse,kontostand)})
+        if self.Node == 'external':
+            self.Transaktionen()
+        
     def Senden(self):
         Von = self.GUI.GET_W('Entry_Von').get()
         An = self.GUI.GET_W('Entry_An').get()
         Betrag = float(self.GUI.GET_W('Entry_Betrag').get())
         PW = self.GUI.GET_W('Entry_Passwort').get()
 
+        #unlock wallet
         x = self.GETH.eth_unlock(Von,PW)
+        if 'error' in x:
+            if x['error']['message'] == 'no key for given address or file':
+                self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'no private key for given address, please import private key first\n'})
+                return
+            elif x['error']['message'] == 'could not decrypt key with given passphrase':
+                self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'wrong password\n'})
+                return
+            self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'error while unlocking wallet\n'})
+            return
+        #make transaction
         if x['result']:
             x = self.GETH.eth_send(Von,An,int(Betrag*10**18))
             print(x)
+            if 'error' in x:
+                if x['error']['message'] == 'insufficient funds for gas * price + value':
+                    self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'insufficient funds\n'})
+            if 'result' in x:
+                if x['result']:
+                    self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'transaction successfully send to network\nTX-Hash: %s\n' % x['result']})
+                else:
+                    self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'error while making transaction\n'})
+        #lock wallet
         x = self.GETH.eth_lock(Von)
+        
     def Importieren(self):
         key = self.GUI.GET_W('Entry_PrivateKey').get()
         PW = self.GUI.GET_W('Entry_Passwort2').get()
 
         x = self.GETH.eth_importkey(key,PW)
-        print(x)
+        self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'wallet import successful, address: %s\n' % x['result']})
+        
     def Neu(self):
         PW = self.GUI.GET_W('Entry_Passwort3').get()
 
         x = self.GETH.eth_newkey(PW)
-        print(x)
+        self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'New wallet created, address: %s\n' % x['result']})
+        
     def Transaktionen(self):
         adresse = self.GUI.GET_W('Entry_Adresse').get()
-        t = threading.Thread(target=self.GETH.get_transactions,args=(adresse,10))
-        t.start()
-        #x = self.GETH.get_transactions(adresse)
-        #print('READY')
+        x = self.GETH.get_transactions(adresse,10)
+        if x != []:
+            for X in x:
+                self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'TX >> amount: %s block: %s\n      from: %s\n      to: %s\n' % (X['Amount'],X['Block'],X['From'],X['To'])})
 
 class Geth_Connector():
     def __init__(self,Host='rafaeldelanekro.de',Port=8545):
@@ -199,7 +263,6 @@ class Geth_Connector():
         all_Transactions = []
         start = akt_block - blocks
         while akt_block >= start:
-            print(akt_block)
             b = hex(akt_block)
             data = '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params":["%s", true],"id":1}' % b
             block = self.connect(data)['result']
@@ -207,9 +270,8 @@ class Geth_Connector():
                 if X['to'] == Adress.lower() or X['from'] == Adress.lower():
                     t = {'From':X['from'],'To':X['to'],'Amount':int(X['value'],16)/10**18,'Block':int(block['number'],16)}
                     all_Transactions += [t]
-                    print(t)
+                    #print(t)
             akt_block -= 1
-        print('READY')
         return all_Transactions
     def get_mined_blocks(self,start=0,Adress=''):
         data = '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":1}'
@@ -339,7 +401,7 @@ class guicore():
                     eval(c)
                 elif Aufgabe['Action'] == 'insert':
                     widget = self.GET_W(Aufgabe['Name'])
-                    if repr(type(widget)) == "<class 'tkinter.ttk.Entry'>" or repr(type(widget)) == "<class 'tkinter.Text'>":
+                    if repr(type(widget)) == "<class 'tkinter.ttk.Entry'>" or repr(type(widget)) == "<class 'tkinter.Text'>" or repr(type(widget)) == "<class 'tkinter.ttk.Combobox'>":
                         if not 'Index' in Aufgabe:
                             Aufgabe.update([('Index', 'end')])
                         widget.insert(Aufgabe['Index'], Aufgabe['Text'])
