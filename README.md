@@ -1,4 +1,10 @@
-# B2G-Wallet V0.1
+# B2G-Wallet V0.1.1
+
+There are two ways of using the wallet:
+- with external public node
+- with local node (more secure)
+
+For external node usage, follow the installation steps 1 and 7 only. For local node all steps required and while testing there where some issues starting the local node, if that happens you can fall back to external node usage.
 
 Installation (windows):
 
@@ -33,23 +39,24 @@ https://tutorials.ubuntu.com/tutorial/tutorial-ubuntu-on-windows
 
 
 Usage (windows):
-- when starting wallet.py, a local node will start in a new window and the wallet window appear
+- when starting wallet.py, external node is selected automatically
+- if you want to run a local node, then select local at node selection and press "Set node"
 - let the node syncronize the chain, at first start it could take 1-3 hours, you will see messages like "Imported new chain segment ...", when it is synced, once synced it will take seconds to sync the node again
 
 >> Read Balance:
 - input the address you want to know the balance into "Address" field, then click "Refresh"
-- Balance will appear in "Balance field"
+- Balance will appear in the box at the bottom, and if found, the transactions from the last 10 Blocks are displayed
 
 >> Import Old Wallet
 - at the time only private keys supported, other methods will follow shortly
-- make sure your node is fully synced
+- local node only: make sure your node is fully synced
 - put in your private key into "Private Key" field
-- set a password for securing your wallet in your node against attacks or misusage, password is shown to make sure you make a secure one, you will need this password for making transactions with your node
-- click "Import" and wait!!! This action may take some time, when the window is not responding, dont worry, just wait, maybe after 10-15 min you can close it and try again
+- set a password for securing your wallet against attacks or misusage, password is shown to make sure you make a secure one, you will need this password for making transactions
+- click "Import", this action may take some time
 
 >> Create New Wallet
 - type in a password in the "Password" field at the bottom and click "New Wallet"
-- in the black window you will see a address displayed, thats your new address
+- in the Outbox you will see your new address displayed
 - the private key is stored in the node secured with your password
 - more advanced options will follow
 
@@ -62,7 +69,7 @@ Usage (windows):
      - 0.5 B2G      = 0.5
 - input your password, which you had choosen at import/creating the wallet
 - click "Send"
-- it will use a normal gas price and limit to make the transaction, you will see it the node window, and it will be done within the next 1-3 blocks
+- it will use a normal gas price and limit to make the transaction, most the time it will be done within the next 1-3 blocks
 
 
 These are all basic functions and its not user friendly, i know, but it should work and i'm working on advanced versions. If you have questions you can contact me via telegram (Rafael de la Nekro).
