@@ -48,7 +48,7 @@ Usage (windows):
 - Balance will appear in the box at the bottom, and if found, the transactions from the last 10 Blocks are displayed
 
 >> Import Old Wallet
-- at the time only private keys supported, other methods will follow shortly
+- at the time only private keys supported, other methods will follow shortly, as a workaround you MAY use myetherwallet to get your private key out of a keystore file or mnemonic phrase: https://vintage.myetherwallet.com/#view-wallet-info ,but be careful and think about security and risks, which may occur
 - local node only: make sure your node is fully synced
 - put in your private key into "Private Key" field
 - set a password for securing your wallet against attacks or misusage, password is shown to make sure you make a secure one, you will need this password for making transactions
