@@ -236,7 +236,7 @@ class Geth_Connector():
 
     def eth_lock(self,Adress):
         params = [Adress]
-        data = json.dumps({"jsonrpc":"2.0","method":"personal_unlockAccount","params":params,"id":1})
+        data = json.dumps({"jsonrpc":"2.0","method":"personal_lockAccount","params":params,"id":1})
         return self.connect(data)
     
     def eth_send(self,From,To,Value,Fee='0x2540be400'):
