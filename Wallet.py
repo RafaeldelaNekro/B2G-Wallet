@@ -23,7 +23,7 @@ class B2G_Wallet():
         self.GUI.ADD({'Action': 'draw', 'Name': 'Separator0', 'Row': 0, 'Col': 0,'CSpan':3, 'Sticky': 'EW', 'PadY': 10,'PadX':5})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Label_Node', 'Typ': 'Label'})
-        self.GUI.ADD({'Action': 'config', 'Name': 'Label_Node', 'Text':'Address:'})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Label_Node', 'Text':'Node:'})
         self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Node', 'Row': 1, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Combobox_Node', 'Typ': 'Combobox'})
         self.GUI.ADD({'Action': 'config', 'Name': 'Combobox_Node', 'Breite':15,'Values':['external','local']})
@@ -141,6 +141,9 @@ class B2G_Wallet():
             self.GUI.ADD({'Action': 'insert', 'Name': 'TextBox','Index':'0.0', 'Text': 'try starting local node \n'})
             t = threading.Thread(target=os.system,args=('bash -c "/mnt/c/B2G/bitcoiinGo --rpc --rpcapi personal,eth,admin"',))
             t.start()
+            self.GETH = Geth_Connector('localhost')
+        if self.Node == 'external':
+            self.GETH = Geth_Connector()
         
     def Aktualisieren(self):
         adresse = self.GUI.GET_W('Entry_Adresse').get()
