@@ -100,7 +100,7 @@ class B2G_Wallet():
         self.GUI.ADD({'Action': 'config', 'Name': 'Label_Passwort2', 'Text':'Password:'})
         self.GUI.ADD({'Action': 'draw', 'Name': 'Label_Passwort2', 'Row': 11, 'Col':0})
         self.GUI.ADD({'Action': 'create', 'Name': 'Entry_Passwort2', 'Typ': 'Entry'})
-        self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Passwort2', 'Breite':50})
+        self.GUI.ADD({'Action': 'config', 'Name': 'Entry_Passwort2', 'Breite':50,'Show':'*'})
         self.GUI.ADD({'Action': 'draw', 'Name': 'Entry_Passwort2', 'Row': 11, 'Col':1})
 
         self.GUI.ADD({'Action': 'create', 'Name': 'Button_Import', 'Typ': 'Button'})
